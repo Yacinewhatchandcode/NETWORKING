@@ -1,0 +1,367 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Antigravity Engine — Sovereign Command Center</title>
+    <meta name="description" content="Antigravity Engine Control Dashboard for sovereign AI compute fabric management">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <!-- Ambient Background -->
+    <div class="ambient-bg">
+        <div class="orb orb-1"></div>
+        <div class="orb orb-2"></div>
+        <div class="orb orb-3"></div>
+        <div class="grid-overlay"></div>
+    </div>
+
+    <!-- Top Bar -->
+    <header class="top-bar">
+        <div class="logo-section">
+            <div class="logo-icon">
+                <svg viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <circle cx="16" cy="16" r="14" stroke="url(#grad1)" stroke-width="2"/>
+                    <path d="M16 6L22 16L16 26L10 16L16 6Z" fill="url(#grad2)" opacity="0.8"/>
+                    <circle cx="16" cy="16" r="4" fill="url(#grad1)"/>
+                    <defs>
+                        <linearGradient id="grad1" x1="0" y1="0" x2="32" y2="32">
+                            <stop offset="0%" stop-color="#00f0ff"/>
+                            <stop offset="100%" stop-color="#7b61ff"/>
+                        </linearGradient>
+                        <linearGradient id="grad2" x1="16" y1="6" x2="16" y2="26">
+                            <stop offset="0%" stop-color="#00f0ff" stop-opacity="0.6"/>
+                            <stop offset="100%" stop-color="#7b61ff" stop-opacity="0.3"/>
+                        </linearGradient>
+                    </defs>
+                </svg>
+            </div>
+            <div class="logo-text">
+                <h1>ANTIGRAVITY</h1>
+                <span class="logo-subtitle">Sovereign Command Center</span>
+            </div>
+        </div>
+        <div class="status-bar">
+            <div class="status-pill online" id="fabricStatus">
+                <span class="pulse"></span>
+                <span>FABRIC ONLINE</span>
+            </div>
+            <div class="clock" id="clock"></div>
+        </div>
+    </header>
+
+    <!-- Main Layout -->
+    <main class="dashboard">
+        <!-- Left Column: Compute Nodes -->
+        <section class="panel nodes-panel">
+            <div class="panel-header">
+                <h2>COMPUTE NODES</h2>
+                <button class="btn-icon" id="refreshNodes" title="Refresh">
+                    <svg width="16" height="16" viewBox="0 0 16 16" fill="currentColor"><path d="M13.65 2.35A8 8 0 1 0 16 8h-2a6 6 0 1 1-1.76-4.24L10 6h6V0l-2.35 2.35z"/></svg>
+                </button>
+            </div>
+            <div class="nodes-grid" id="nodesGrid">
+                <!-- MacBook Pro -->
+                <div class="node-card" data-node="macbook" id="nodeMacbook">
+                    <div class="node-status-indicator online"></div>
+                    <div class="node-header">
+                        <div class="node-icon">💻</div>
+                        <div class="node-meta">
+                            <h3>MacBook Pro</h3>
+                            <span class="node-tag">M4 Pro · Metal GPU</span>
+                        </div>
+                    </div>
+                    <div class="node-stats">
+                        <div class="stat">
+                            <span class="stat-label">GPU</span>
+                            <span class="stat-value" id="mbGpu">M4 Pro Metal</span>
+                        </div>
+                        <div class="stat">
+                            <span class="stat-label">Role</span>
+                            <span class="stat-value">Primary</span>
+                        </div>
+                        <div class="stat">
+                            <span class="stat-label">Ollama</span>
+                            <span class="stat-value status-on" id="mbOllama">Running</span>
+                        </div>
+                    </div>
+                    <div class="node-models" id="mbModels">
+                        <span class="model-chip">deepseek-r1:14b</span>
+                        <span class="model-chip">qwen3:14b</span>
+                        <span class="model-chip">llama3.2-vision</span>
+                    </div>
+                </div>
+
+                <!-- iMac Engine -->
+                <div class="node-card active" data-node="imac" id="nodeImac">
+                    <div class="node-status-indicator online"></div>
+                    <div class="node-header">
+                        <div class="node-icon">🖥️</div>
+                        <div class="node-meta">
+                            <h3>iMac Engine</h3>
+                            <span class="node-tag">i7-7700K · AMD Radeon</span>
+                        </div>
+                    </div>
+                    <div class="node-stats">
+                        <div class="stat">
+                            <span class="stat-label">IP</span>
+                            <span class="stat-value" id="imacIp">192.168.1.140</span>
+                        </div>
+                        <div class="stat">
+                            <span class="stat-label">OpenClaw</span>
+                            <span class="stat-value status-on" id="imacOc">2026.2.12</span>
+                        </div>
+                        <div class="stat">
+                            <span class="stat-label">Ollama</span>
+                            <span class="stat-value status-on" id="imacOllama">Running</span>
+                        </div>
+                    </div>
+                    <div class="node-models" id="imacModels">
+                        <span class="model-chip active">qwen2.5:0.5b</span>
+                        <span class="model-chip">llama3.2:3b</span>
+                        <span class="model-chip">deepseek-r1:7b</span>
+                    </div>
+                </div>
+
+                <!-- VPS Node -->
+                <div class="node-card" data-node="vps" id="nodeVps">
+                    <div class="node-status-indicator checking"></div>
+                    <div class="node-header">
+                        <div class="node-icon">☁️</div>
+                        <div class="node-meta">
+                            <h3>VPS Hostinger</h3>
+                            <span class="node-tag">CPU-Only · Remote</span>
+                        </div>
+                    </div>
+                    <div class="node-stats">
+                        <div class="stat">
+                            <span class="stat-label">IP</span>
+                            <span class="stat-value">31.97.52.22</span>
+                        </div>
+                        <div class="stat">
+                            <span class="stat-label">Role</span>
+                            <span class="stat-value">Edge</span>
+                        </div>
+                        <div class="stat">
+                            <span class="stat-label">Ollama</span>
+                            <span class="stat-value status-warn" id="vpsOllama">Checking...</span>
+                        </div>
+                    </div>
+                    <div class="node-models" id="vpsModels">
+                        <span class="model-chip">qwen2.5:0.5b</span>
+                        <span class="model-chip">qwen2.5:3b</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Center Column: Agent Terminal -->
+        <section class="panel terminal-panel">
+            <div class="panel-header">
+                <h2>AGENT TERMINAL</h2>
+                <div class="terminal-controls">
+                    <select id="targetNode" class="select-node">
+                        <option value="imac">🖥️ iMac Engine</option>
+                        <option value="macbook">💻 MacBook Pro</option>
+                        <option value="vps">☁️ VPS Hostinger</option>
+                    </select>
+                    <select id="targetModel" class="select-model">
+                        <option value="qwen2.5:0.5b">qwen2.5:0.5b (fast)</option>
+                        <option value="llama3.2:3b">llama3.2:3b</option>
+                        <option value="deepseek-r1:7b">deepseek-r1:7b</option>
+                    </select>
+                </div>
+            </div>
+            <div class="terminal-body" id="terminalBody">
+                <div class="terminal-welcome">
+                    <div class="welcome-icon">
+                        <svg viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <circle cx="24" cy="24" r="22" stroke="url(#wg1)" stroke-width="1.5" opacity="0.5"/>
+                            <circle cx="24" cy="24" r="15" stroke="url(#wg1)" stroke-width="1" opacity="0.3"/>
+                            <circle cx="24" cy="24" r="6" fill="url(#wg1)" opacity="0.8"/>
+                            <defs><linearGradient id="wg1" x1="0" y1="0" x2="48" y2="48">
+                                <stop offset="0%" stop-color="#00f0ff"/><stop offset="100%" stop-color="#7b61ff"/>
+                            </linearGradient></defs>
+                        </svg>
+                    </div>
+                    <h3>Antigravity Engine Ready</h3>
+                    <p>Connected to 3-tier sovereign compute fabric</p>
+                    <div class="welcome-stats">
+                        <div class="ws"><span class="ws-n" id="totalNodes">3</span><span class="ws-l">Nodes</span></div>
+                        <div class="ws"><span class="ws-n" id="totalModels">6</span><span class="ws-l">Models</span></div>
+                        <div class="ws"><span class="ws-n" id="totalGpu">2</span><span class="ws-l">GPUs</span></div>
+                    </div>
+                </div>
+                <div class="messages" id="messages"></div>
+            </div>
+            <div class="terminal-input-area">
+                <div class="input-wrapper">
+                    <span class="input-prefix">❯</span>
+                    <input type="text" id="commandInput" placeholder="Send a command to the agent..." autocomplete="off" autofocus>
+                    <button class="btn-send" id="sendBtn" title="Send">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 2L11 13M22 2l-7 20-4-9-9-4 20-7z"/></svg>
+                    </button>
+                </div>
+                <div class="input-hints">
+                    <span class="hint">⏎ Send</span>
+                    <span class="hint">⌘K Clear</span>
+                    <span class="hint" id="latencyHint">Latency: --</span>
+                </div>
+            </div>
+        </section>
+
+        <!-- Right Column: System Health -->
+        <section class="panel health-panel">
+            <div class="panel-header">
+                <h2>SYSTEM HEALTH</h2>
+            </div>
+
+            <!-- Health Metrics -->
+            <div class="health-grid">
+                <div class="health-card">
+                    <div class="health-ring" data-value="98" id="ringUptime">
+                        <svg viewBox="0 0 80 80">
+                            <circle cx="40" cy="40" r="35" fill="none" stroke="rgba(255,255,255,0.05)" stroke-width="4"/>
+                            <circle cx="40" cy="40" r="35" fill="none" stroke="url(#hg1)" stroke-width="4" stroke-dasharray="220" stroke-dashoffset="4" stroke-linecap="round" transform="rotate(-90 40 40)"/>
+                            <defs><linearGradient id="hg1"><stop offset="0%" stop-color="#00f0ff"/><stop offset="100%" stop-color="#00e5cc"/></linearGradient></defs>
+                        </svg>
+                        <span class="ring-value">98%</span>
+                    </div>
+                    <span class="health-label">Uptime</span>
+                </div>
+                <div class="health-card">
+                    <div class="health-ring" data-value="72" id="ringMemory">
+                        <svg viewBox="0 0 80 80">
+                            <circle cx="40" cy="40" r="35" fill="none" stroke="rgba(255,255,255,0.05)" stroke-width="4"/>
+                            <circle cx="40" cy="40" r="35" fill="none" stroke="url(#hg2)" stroke-width="4" stroke-dasharray="220" stroke-dashoffset="62" stroke-linecap="round" transform="rotate(-90 40 40)"/>
+                            <defs><linearGradient id="hg2"><stop offset="0%" stop-color="#7b61ff"/><stop offset="100%" stop-color="#a78bfa"/></linearGradient></defs>
+                        </svg>
+                        <span class="ring-value">72%</span>
+                    </div>
+                    <span class="health-label">Memory</span>
+                </div>
+                <div class="health-card">
+                    <div class="health-ring" data-value="45" id="ringCpu">
+                        <svg viewBox="0 0 80 80">
+                            <circle cx="40" cy="40" r="35" fill="none" stroke="rgba(255,255,255,0.05)" stroke-width="4"/>
+                            <circle cx="40" cy="40" r="35" fill="none" stroke="url(#hg3)" stroke-width="4" stroke-dasharray="220" stroke-dashoffset="121" stroke-linecap="round" transform="rotate(-90 40 40)"/>
+                            <defs><linearGradient id="hg3"><stop offset="0%" stop-color="#f59e0b"/><stop offset="100%" stop-color="#ef4444"/></linearGradient></defs>
+                        </svg>
+                        <span class="ring-value">45%</span>
+                    </div>
+                    <span class="health-label">CPU Load</span>
+                </div>
+                <div class="health-card">
+                    <div class="health-ring" data-value="85" id="ringGpu">
+                        <svg viewBox="0 0 80 80">
+                            <circle cx="40" cy="40" r="35" fill="none" stroke="rgba(255,255,255,0.05)" stroke-width="4"/>
+                            <circle cx="40" cy="40" r="35" fill="none" stroke="url(#hg4)" stroke-width="4" stroke-dasharray="220" stroke-dashoffset="33" stroke-linecap="round" transform="rotate(-90 40 40)"/>
+                            <defs><linearGradient id="hg4"><stop offset="0%" stop-color="#10b981"/><stop offset="100%" stop-color="#34d399"/></linearGradient></defs>
+                        </svg>
+                        <span class="ring-value">85%</span>
+                    </div>
+                    <span class="health-label">GPU Avail</span>
+                </div>
+            </div>
+
+            <!-- Activity Log -->
+            <div class="activity-section">
+                <h3 class="section-title">ACTIVITY LOG</h3>
+                <div class="activity-feed" id="activityFeed">
+                    <div class="activity-item">
+                        <span class="activity-dot green"></span>
+                        <div class="activity-content">
+                            <span class="activity-text">OpenClaw agent responded</span>
+                            <span class="activity-time">just now</span>
+                        </div>
+                    </div>
+                    <div class="activity-item">
+                        <span class="activity-dot blue"></span>
+                        <div class="activity-content">
+                            <span class="activity-text">qwen2.5:0.5b loaded on iMac</span>
+                            <span class="activity-time">2m ago</span>
+                        </div>
+                    </div>
+                    <div class="activity-item">
+                        <span class="activity-dot purple"></span>
+                        <div class="activity-content">
+                            <span class="activity-text">Node 22.16.0 installed</span>
+                            <span class="activity-time">1h ago</span>
+                        </div>
+                    </div>
+                    <div class="activity-item">
+                        <span class="activity-dot cyan"></span>
+                        <div class="activity-content">
+                            <span class="activity-text">Ollama fabric verified</span>
+                            <span class="activity-time">2h ago</span>
+                        </div>
+                    </div>
+                    <div class="activity-item">
+                        <span class="activity-dot amber"></span>
+                        <div class="activity-content">
+                            <span class="activity-text">USB-C Ethernet disconnected</span>
+                            <span class="activity-time">8h ago</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Model Distribution -->
+            <div class="distribution-section">
+                <h3 class="section-title">MODEL DISTRIBUTION</h3>
+                <div class="distribution-bars">
+                    <div class="dist-row">
+                        <span class="dist-label">MacBook Pro</span>
+                        <div class="dist-bar">
+                            <div class="dist-fill" style="width: 55%; background: linear-gradient(90deg, #00f0ff, #00e5cc);"></div>
+                        </div>
+                        <span class="dist-value">3 models</span>
+                    </div>
+                    <div class="dist-row">
+                        <span class="dist-label">iMac Engine</span>
+                        <div class="dist-bar">
+                            <div class="dist-fill" style="width: 45%; background: linear-gradient(90deg, #7b61ff, #a78bfa);"></div>
+                        </div>
+                        <span class="dist-value">3 models</span>
+                    </div>
+                    <div class="dist-row">
+                        <span class="dist-label">VPS</span>
+                        <div class="dist-bar">
+                            <div class="dist-fill" style="width: 25%; background: linear-gradient(90deg, #f59e0b, #ef4444);"></div>
+                        </div>
+                        <span class="dist-value">2 models</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Quick Actions -->
+            <div class="actions-section">
+                <h3 class="section-title">QUICK ACTIONS</h3>
+                <div class="action-buttons">
+                    <button class="action-btn" id="btnHealthCheck" data-action="health">
+                        <svg width="16" height="16" viewBox="0 0 16 16" fill="currentColor"><path d="M8 0a8 8 0 100 16A8 8 0 008 0zm1 11H7V7h2v4zm0-6H7V3h2v2z"/></svg>
+                        Health Check
+                    </button>
+                    <button class="action-btn" id="btnPullModel" data-action="pull">
+                        <svg width="16" height="16" viewBox="0 0 16 16" fill="currentColor"><path d="M8 12l-4-4h2.5V2h3v6H12L8 12zM2 14h12v2H2v-2z"/></svg>
+                        Pull Model
+                    </button>
+                    <button class="action-btn" id="btnSyncWorkflows" data-action="sync">
+                        <svg width="16" height="16" viewBox="0 0 16 16" fill="currentColor"><path d="M12 2L8 6l4 4V8c2.2 0 4 1.8 4 4s-1.8 4-4 4H4v-2h8c1.1 0 2-.9 2-2s-.9-2-2-2V8L8 4l4-4v2z"/></svg>
+                        Sync Workflows
+                    </button>
+                    <button class="action-btn danger" id="btnKillAll" data-action="kill">
+                        <svg width="16" height="16" viewBox="0 0 16 16" fill="currentColor"><path d="M8 0a8 8 0 100 16A8 8 0 008 0zM3 7h10v2H3V7z"/></svg>
+                        Kill Sessions
+                    </button>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <script src="app.js"></script>
+</body>
+</html>

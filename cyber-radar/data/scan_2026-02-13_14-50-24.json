@@ -1,0 +1,24 @@
+{
+  "version": "2.0",
+  "timestamp": "2026-02-13_14-50-24",
+  "scan_mode": "--quick",
+  "summary": {
+    "passed": 23,
+    "warnings": 8,
+    "critical": 0,
+    "threat_level": "YELLOW"
+  },
+  "modules": [
+    "network_discovery",
+    "port_scan",
+    "arp_integrity",
+    "dns_integrity",
+    "prompt_injection",
+    "local_security",
+    "vps_security",
+    "wireless_security",
+    "ssl_tls_audit",
+    "service_fingerprint"
+  ],
+  "report_file": "/Users/yacinebenhamou/NETWORKING/cyber-radar/reports/scan_2026-02-13_14-50-24.md"
+}

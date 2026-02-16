@@ -1,0 +1,100 @@
+{
+  "devices": {
+    "84:a3:29:e7:c1:6d": {
+      "name": "Meteor 5G Box",
+      "type": "router",
+      "ip": "192.168.1.1",
+      "owner": "infrastructure"
+    },
+    "24:f6:77:11:26:5c": {
+      "name": "iMac de Yacine",
+      "type": "workstation",
+      "ip": "192.168.1.140",
+      "owner": "yacine"
+    },
+    "ae:fa:d1:06:62:fd": {
+      "name": "Samsung Tab S8",
+      "type": "tablet",
+      "ip": "192.168.1.146",
+      "owner": "yacine"
+    },
+    "ae:fa:d1:6:62:fd": {
+      "name": "Samsung Tab S8",
+      "type": "tablet",
+      "ip": "192.168.1.146",
+      "owner": "yacine"
+    },
+    "aa:04:7c:04:91:8e": {
+      "name": "MacBook Pro M4 (Wi-Fi)",
+      "type": "workstation",
+      "ip": "192.168.1.171",
+      "owner": "yacine"
+    },
+    "3c:18:a0:ca:ee:4f": {
+      "name": "MacBook Pro M4 (Ethernet)",
+      "type": "workstation",
+      "ip": "192.168.1.151",
+      "owner": "yacine"
+    },
+    "90:09:d0:7e:14:d4": {
+      "name": "Synology NAS Yace",
+      "type": "nas",
+      "ip": "192.168.1.187",
+      "owner": "yacine"
+    },
+    "64:c6:d2:90:de:b7": {
+      "name": "Epson Printer",
+      "type": "printer",
+      "ip": "192.168.1.239",
+      "owner": "yacine"
+    },
+    "9e:e0:23:f2:0d:5a": {
+      "name": "Samsung Galaxy S25",
+      "type": "phone",
+      "ip": "192.168.1.102",
+      "owner": "yacine"
+    }
+  },
+  "known_listeners": {
+    "Python:8888": {
+      "name": "Jupyter Notebook",
+      "safe": true,
+      "owner": "yacine"
+    },
+    "node:3000": {
+      "name": "Next.js Dev Server",
+      "safe": true,
+      "owner": "yacine"
+    },
+    "node:3847": {
+      "name": "ChatGPT Desktop Agent",
+      "safe": true,
+      "owner": "yacine"
+    },
+    "node:3001": {
+      "name": "Next.js Dev Server (alt)",
+      "safe": true,
+      "owner": "yacine"
+    },
+    "node:5173": {
+      "name": "Vite Dev Server",
+      "safe": true,
+      "owner": "yacine"
+    },
+    "ControlCe:5000": {
+      "name": "AirPlay Receiver",
+      "safe": true,
+      "owner": "system"
+    },
+    "ControlCe:7000": {
+      "name": "AirPlay Receiver",
+      "safe": true,
+      "owner": "system"
+    },
+    "rapportd:*": {
+      "name": "Apple Rapport Daemon",
+      "safe": true,
+      "owner": "system"
+    }
+  }
+}

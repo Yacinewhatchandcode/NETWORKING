@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cyber Radar — Sovereign Network Defense Dashboard</title>
+    <meta name="description"
+        content="Real-time network threat monitoring dashboard for the Sovereign AI Cyber Radar system">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400;500;700&family=Inter:wght@300;400;500;600;700;800&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+    <div class="scanline-overlay"></div>
+    <div class="grid-bg"></div>
+
+    <header id="main-header">
+        <div class="header-left">
+            <div class="radar-icon" id="radar-icon">
+                <svg viewBox="0 0 100 100" width="48" height="48">
+                    <circle cx="50" cy="50" r="45" fill="none" stroke="var(--accent)" stroke-width="1" opacity="0.3" />
+                    <circle cx="50" cy="50" r="30" fill="none" stroke="var(--accent)" stroke-width="1" opacity="0.3" />
+                    <circle cx="50" cy="50" r="15" fill="none" stroke="var(--accent)" stroke-width="1" opacity="0.3" />
+                    <circle cx="50" cy="50" r="3" fill="var(--accent)" />
+                    <line x1="50" y1="50" x2="50" y2="5" stroke="var(--accent)" stroke-width="2" class="radar-sweep" />
+                </svg>
+            </div>
+            <div>
+                <h1>CYBER RADAR <span class="version">v2.0</span></h1>
+                <p class="subtitle">Zero-Illusion Sovereign Network Defense</p>
+            </div>
+        </div>
+        <div class="header-right">
+            <div class="status-indicator" id="system-status">
+                <span class="status-dot"></span>
+                <span class="status-text">MONITORING</span>
+            </div>
+            <button id="btn-scan" class="btn-primary" onclick="triggerScan()">
+                <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+                    <path d="M8 1v3M8 12v3M15 8h-3M4 8H1M13 3L10.5 5.5M5.5 10.5L3 13M13 13l-2.5-2.5M5.5 5.5L3 3"
+                        stroke="currentColor" stroke-width="1.5" stroke-linecap="round" />
+                </svg>
+                Run Scan
+            </button>
+            <div class="clock" id="clock"></div>
+        </div>
+    </header>
+
+    <main>
+        <!-- Threat Level Hero -->
+        <section class="threat-hero" id="threat-hero">
+            <div class="threat-ring" id="threat-ring">
+                <svg viewBox="0 0 200 200" class="threat-svg">
+                    <defs>
+                        <linearGradient id="ring-grad" x1="0%" y1="0%" x2="100%" y2="100%">
+                            <stop offset="0%" style="stop-color:var(--threat-color);stop-opacity:0.8" />
+                            <stop offset="100%" style="stop-color:var(--threat-color);stop-opacity:0.2" />
+                        </linearGradient>
+                    </defs>
+                    <circle cx="100" cy="100" r="85" fill="none" stroke="rgba(255,255,255,0.05)" stroke-width="8" />
+                    <circle cx="100" cy="100" r="85" fill="none" stroke="url(#ring-grad)" stroke-width="8"
+                        stroke-dasharray="534" stroke-dashoffset="534" stroke-linecap="round" class="threat-arc"
+                        id="threat-arc" />
+                    <circle cx="100" cy="100" r="70" fill="none" stroke="rgba(255,255,255,0.03)" stroke-width="1" />
+                </svg>
+                <div class="threat-center">
+                    <div class="threat-level" id="threat-level">—</div>
+                    <div class="threat-label">THREAT LEVEL</div>
+                </div>
+            </div>
+            <div class="threat-stats">
+                <div class="stat-card stat-pass" id="stat-pass">
+                    <div class="stat-value">0</div>
+                    <div class="stat-label">PASSED</div>
+                    <div class="stat-bar">
+                        <div class="stat-fill"></div>
+                    </div>
+                </div>
+                <div class="stat-card stat-warn" id="stat-warn">
+                    <div class="stat-value">0</div>
+                    <div class="stat-label">WARNINGS</div>
+                    <div class="stat-bar">
+                        <div class="stat-fill"></div>
+                    </div>
+                </div>
+                <div class="stat-card stat-crit" id="stat-crit">
+                    <div class="stat-value">0</div>
+                    <div class="stat-label">CRITICAL</div>
+                    <div class="stat-bar">
+                        <div class="stat-fill"></div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Module Status Grid -->
+        <section class="modules-section">
+            <h2 class="section-title">
+                <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
+                    <rect x="1" y="1" width="7" height="7" rx="1" stroke="currentColor" stroke-width="1.5" />
+                    <rect x="12" y="1" width="7" height="7" rx="1" stroke="currentColor" stroke-width="1.5" />
+                    <rect x="1" y="12" width="7" height="7" rx="1" stroke="currentColor" stroke-width="1.5" />
+                    <rect x="12" y="12" width="7" height="7" rx="1" stroke="currentColor" stroke-width="1.5" />
+                </svg>
+                Security Modules
+            </h2>
+            <div class="modules-grid" id="modules-grid">
+                <!-- Populated by JS -->
+            </div>
+        </section>
+
+        <!-- Device Map -->
+        <section class="devices-section">
+            <h2 class="section-title">
+                <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
+                    <circle cx="10" cy="10" r="8" stroke="currentColor" stroke-width="1.5" fill="none" />
+                    <circle cx="10" cy="10" r="3" stroke="currentColor" stroke-width="1.5" fill="none" />
+                    <line x1="10" y1="2" x2="10" y2="5" stroke="currentColor" stroke-width="1.5" />
+                    <line x1="10" y1="15" x2="10" y2="18" stroke="currentColor" stroke-width="1.5" />
+                    <line x1="2" y1="10" x2="5" y2="10" stroke="currentColor" stroke-width="1.5" />
+                    <line x1="15" y1="10" x2="18" y2="10" stroke="currentColor" stroke-width="1.5" />
+                </svg>
+                Fleet Topology — 192.168.1.x
+            </h2>
+            <div class="device-grid" id="device-grid">
+                <!-- Populated by JS -->
+            </div>
+        </section>
+
+        <!-- Scan History / Trend -->
+        <section class="trend-section">
+            <h2 class="section-title">
+                <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
+                    <polyline points="2,16 6,10 10,12 14,4 18,8" stroke="currentColor" stroke-width="1.5" fill="none"
+                        stroke-linecap="round" stroke-linejoin="round" />
+                </svg>
+                Historical Trend
+            </h2>
+            <div class="trend-chart" id="trend-chart">
+                <canvas id="trend-canvas"></canvas>
+            </div>
+            <div class="scan-history" id="scan-history">
+                <!-- Populated by JS -->
+            </div>
+        </section>
+
+        <!-- Live Log Feed -->
+        <section class="log-section">
+            <h2 class="section-title">
+                <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
+                    <rect x="2" y="2" width="16" height="16" rx="2" stroke="currentColor" stroke-width="1.5" />
+                    <line x1="5" y1="6" x2="15" y2="6" stroke="currentColor" stroke-width="1.5" />
+                    <line x1="5" y1="10" x2="12" y2="10" stroke="currentColor" stroke-width="1.5" />
+                    <line x1="5" y1="14" x2="9" y2="14" stroke="currentColor" stroke-width="1.5" />
+                </svg>
+                Findings Log
+            </h2>
+            <div class="log-feed" id="log-feed">
+                <div class="log-empty">No scan data loaded. Click <strong>Run Scan</strong> or load a report.</div>
+            </div>
+        </section>
+
+        <!-- Hardening Actions -->
+        <section class="actions-section">
+            <h2 class="section-title">
+                <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
+                    <path d="M10 2L3 6v5c0 4.4 3 8.5 7 9.5 4-1 7-5.1 7-9.5V6l-7-4z" stroke="currentColor"
+                        stroke-width="1.5" fill="none" />
+                    <polyline points="7,10 9,12 13,8" stroke="currentColor" stroke-width="1.5" fill="none"
+                        stroke-linecap="round" stroke-linejoin="round" />
+                </svg>
+                Hardening Actions
+            </h2>
+            <div class="actions-grid" id="actions-grid">
+                <div class="action-card" data-action="harden">
+                    <div class="action-icon">🔒</div>
+                    <h3>Run Hardening</h3>
+                    <p>Enable firewall, stealth mode, block NetBIOS/Telnet, flush ARP cache</p>
+                    <code>sudo bash harden.sh</code>
+                </div>
+                <div class="action-card" data-action="vault">
+                    <div class="action-icon">🔐</div>
+                    <h3>Vault Migration</h3>
+                    <p>Migrate plaintext API keys to macOS Keychain</p>
+                    <code>bash secure-keys.sh</code>
+                </div>
+                <div class="action-card" data-action="nas">
+                    <div class="action-icon">💾</div>
+                    <h3>NAS Hardening</h3>
+                    <p>Disable NetBIOS, force HTTPS, enable auto-block on Synology</p>
+                    <code>See guides/nas-hardening.md</code>
+                </div>
+                <div class="action-card" data-action="scan">
+                    <div class="action-icon">🛡️</div>
+                    <h3>Full v2.0 Scan</h3>
+                    <p>10-module scan with wireless, SSL/TLS, service fingerprinting</p>
+                    <code>bash radar.sh --full</code>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <p>CYBER RADAR v2.0 — Sovereign Network Defense — Zero-Illusion Execution Protocol</p>
+    </footer>
+
+    <script src="app.js"></script>
+</body>
+
+</html>
